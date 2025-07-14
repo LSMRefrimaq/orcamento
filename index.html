@@ -25,35 +25,25 @@
             margin-bottom: 30px;
         }
 
-        /* Estilos da logo e company-info para a TELA (visualização normal) */
-        /* O .header-content-print será o flex container para a tela e para o PDF */
         .header-content-print {
             display: flex;
             flex-direction: column;
-            /* Empilha logo e company-info */
             align-items: center;
-            /* Centraliza horizontalmente */
             margin-top: 20px;
-            /* Espaçamento da tela */
         }
 
         .logo {
             width: 100%;
             height: auto;
             padding-bottom: 5%;
-            /* Mantido para visualização na tela */
             height: auto;
-            /* Mantenha 'auto' para evitar distorção */
             display: block;
             margin: 0 15px;
-            /* Centraliza a logo na tela e adiciona margem inferior */
         }
 
         .company-info {
             display: block;
-            /* Garante que as informações da empresa fiquem em bloco */
             text-align: center;
-            /* Centraliza o texto na tela */
         }
 
         .company-info h5 {
@@ -79,55 +69,38 @@
             padding: 8px;
         }
 
-        /* Alteração aqui: Defina um tamanho de fonte menor para o total-geral na tela */
         .total-geral {
-            font-size: 1.25rem; /* Ajustado para um tamanho mais adequado na tela */
+            font-size: 1.25rem;
             font-weight: bold;
             color: #007bff;
         }
 
-        /* **** ESTILOS ESPECÍFICOS PARA O PDF (IMPRESSÃO) **** */
         @media print {
             .header {
                 text-align: center !important;
-                /* Garante centralização do conteúdo do header */
                 margin-bottom: 0 !important;
-                /* Remove margem inferior do header */
                 padding-bottom: 0 !important;
-                /* Remove padding inferior do header */
             }
 
-            /* Container para a logo e informações da empresa no PDF */
             .header-content-print {
                 display: flex !important;
                 flex-direction: column !important;
-                /* Empilha logo e company-info */
                 align-items: center !important;
-                /* Centraliza horizontalmente ambos */
                 margin-top: 0 !important;
-                /* Remove margem superior do container no PDF */
                 margin-bottom: 10px !important;
-                /* Espaçamento reduzido abaixo do cabeçalho completo */
                 width: 100%;
-                /* Ocupa a largura total para centralização */
             }
 
             .logo {
                 width: 100%;
-                /* Largura da logo no PDF */
                 height: auto !important;
-                /* Mantém proporção */
                 margin: 0 auto 5px auto !important;
-                /* Centraliza logo e reduz margem inferior para o PDF */
             }
 
             .company-info {
                 text-align: center !important;
-                /* Centraliza o texto das informações no PDF */
                 margin-top: 0 !important;
-                /* Remove margem superior da info da empresa */
                 padding: 0 !important;
-                /* Remove paddings desnecessários */
             }
 
             .company-info h5 {
@@ -139,7 +112,6 @@
                 margin-bottom: 2px !important;
             }
 
-            /* Remover coluna "Ações" */
             .acoes-col {
                 display: none !important;
             }
@@ -152,7 +124,6 @@
                 display: none !important;
             }
 
-            /* Ajustes para inputs de formulário no PDF (transforma em texto) */
             .form-control {
                 border: none !important;
                 background-color: transparent !important;
@@ -177,24 +148,21 @@
                 border: 1px solid #dee2e6 !important;
             }
 
-            /* Mantém o Total Geral menor e uniforme para o PDF */
             #totalGeral {
-                font-size: 1.2rem !important; /* Já estava ajustado para o PDF */
+                font-size: 1.2rem !important;
                 text-align: left !important;
                 padding-left: 10px !important;
                 color: #007bff !important;
             }
 
             .total-geral strong {
-                font-size: 1.2rem !important; /* Já estava ajustado para o PDF */
+                font-size: 1.2rem !important;
             }
 
-            /* Deixar o ID orcamentoContent em negrito */
             #orcamentoContent {
                 font-weight: bold !important;
             }
 
-            /* Revertendo o negrito para elementos específicos que não devem ser negrito */
             #orcamentoContent label,
             #orcamentoContent input,
             #orcamentoContent select,
@@ -210,7 +178,6 @@
                 font-weight: bold !important;
             }
 
-            /* Oculta os botões "Adicionar Item" e "Gerar PDF" na impressão */
             #adicionarItem,
             #gerarPdf {
                 display: none !important;
@@ -305,14 +272,12 @@
             const dataInput = document.getElementById('data');
             let itemCount = 0;
 
-            // Define a data atual
             const today = new Date();
             const day = String(today.getDate()).padStart(2, '0');
-            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mês é 0-indexed
+            const month = String(today.getMonth() + 1).padStart(2, '0');
             const year = today.getFullYear();
             dataInput.value = `${year}-${month}-${day}`;
 
-            // Função para adicionar uma nova linha de item
             function adicionarItem() {
                 itemCount++;
                 const newRow = document.createElement('tr');
@@ -330,7 +295,6 @@
                 calcularTotalGeral();
             }
 
-            // Função para anexar event listeners a uma nova linha
             function attachEventListeners(row) {
                 const quantidadeInput = row.querySelector('.item-quantidade');
                 const valorUnitarioInput = row.querySelector('.item-valor-unitario');
@@ -341,7 +305,6 @@
                 removerBtn.addEventListener('click', removerItem);
             }
 
-            // Função para calcular o total de um item específico
             function calcularTotalItem(event) {
                 const itemId = event.target.dataset.id;
                 const quantidade = parseFloat(document.querySelector(`.item-quantidade[data-id="${itemId}"]`).value) || 0;
@@ -351,7 +314,6 @@
                 calcularTotalGeral();
             }
 
-            // Função para calcular o total geral
             function calcularTotalGeral() {
                 let totalGeral = 0;
                 document.querySelectorAll('.item-total').forEach(span => {
@@ -361,7 +323,6 @@
                 totalGeralSpan.textContent = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
             }
 
-            // Função para remover um item
             function removerItem(event) {
                 const itemId = event.target.dataset.id;
                 const rowToRemove = event.target.closest('tr');
@@ -369,17 +330,13 @@
                 calcularTotalGeral();
             }
 
-            // Event listener para o botão "Adicionar Item"
             adicionarItemBtn.addEventListener('click', adicionarItem);
 
-            // Adiciona o primeiro item ao carregar a página
             adicionarItem();
 
-            // Event listener para o botão "Gerar PDF"
             gerarPdfBtn.addEventListener('click', function () {
-                const element = document.getElementById('orcamentoContent'); // O elemento que queremos converter
+                const element = document.getElementById('orcamentoContent');
 
-                // Opções para o html2pdf
                 const opt = {
                     margin: 10,
                     filename: 'orcamento.pdf',
@@ -388,31 +345,23 @@
                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
                 };
 
-                // Clona o elemento para manipular antes de gerar o PDF
                 const clonedElement = element.cloneNode(true);
 
-                // --- MANIPULAÇÕES ESPECÍFICAS PARA O PDF NO CLONE (VIA JS) ---
-
-                // Substitui inputs por spans com seus valores para o PDF
                 clonedElement.querySelectorAll('input').forEach(input => {
                     const span = document.createElement('span');
                     span.textContent = input.value;
                     span.style.display = 'inline-block';
-                    // Copia estilos básicos para manter a aparência
                     span.style.padding = '0';
                     span.style.margin = '0';
                     input.parentNode.insertBefore(span, input);
                     input.remove();
                 });
 
-                // Remove a coluna de ações e os botões
-                // Remove o cabeçalho 'Ações'
                 const acoesHeader = clonedElement.querySelector('#itensOrcamentoTable thead .acoes-col');
                 if (acoesHeader) {
                     acoesHeader.remove();
                 }
 
-                // Remove a célula 'Ações' de cada linha do corpo da tabela
                 clonedElement.querySelectorAll('#itensOrcamentoTable tbody tr').forEach(row => {
                     const lastCell = row.querySelector('td:last-child');
                     if (lastCell) {
@@ -422,23 +371,19 @@
                     }
                 });
 
-                // Remove a célula 'Ações' do rodapé da tabela
                 const acoesFooterCell = clonedElement.querySelector('#itensOrcamentoTable tfoot .acoes-col');
                 if (acoesFooterCell) {
                     acoesFooterCell.remove();
                 }
 
-                // Ajusta o colspan do Total Geral no rodapé da tabela
                 const totalGeralLabelTd = clonedElement.querySelector('#itensOrcamentoTable tfoot tr td:first-child');
                 if (totalGeralLabelTd) {
                     totalGeralLabelTd.setAttribute('colspan', '4');
                 }
 
-                // Remove os botões 'Adicionar Item' e 'Gerar PDF'
                 clonedElement.querySelector('#adicionarItem')?.remove();
                 clonedElement.querySelector('#gerarPdf')?.remove();
 
-                // Gera o PDF
                 html2pdf().from(clonedElement).set(opt).save();
             });
         });
